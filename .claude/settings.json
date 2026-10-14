@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && npm run build >/tmp/aksiri-build.log 2>&1 || { echo 'npm run build failed. Fix the errors below before finishing:' >&2; tail -30 /tmp/aksiri-build.log >&2; exit 2; }"
+          }
+        ]
+      }
+    ]
+  }
+}

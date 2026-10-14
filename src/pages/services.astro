@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:global>
+  @media (max-width: 768px) {
+    .services-category {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 0 0.75rem;
+    }
+  }
+</style>
+
+<Layout title="Services" description="AI services from Aksiri AI.">
+  <h1 class="services-title">AI Services We're Built For</h1>
+
+  <div class="services-category">
+    <h2 class="category">AI Agents</h2>
+    <ul class="agent-list">
+      <li><strong>Customer Success Agents</strong> – Handle inquiries, bookings, and follow-ups autonomously.</li>
+      <li><strong>Analytics Agents</strong> – Process and summarize large datasets, generating actionable insights.</li>
+      <li><strong>Automation Orchestrators</strong> – Chain multiple AI models to complete end-to-end workflows.</li>
+    </ul>
+  </div>
+
+  <div class="services-category">
+    <h2 class="category">Development</h2>
+    <ul class="dev-list">
+      <li><strong>Custom AI Models</strong> – Train and deploy domain-specific models from scratch.</li>
+      <li><strong>ML Pipeline Engineering</strong> – Build scalable pipelines for MLOps.</li>
+      <li><strong>AI Integration</strong> – Connect our models with your existing systems (Salesforce, Slack, Jira, etc.).</li>
+    </ul>
+  </div>
+
+  <div class="services-category">
+    <h2 class="category">Consulting</h2>
+    <ul class="consult-list">
+      <li><strong>AI Strategy</strong> – Roadmap planning for intelligent transformation.</li>
+      <li><strong>Ethical AI Framework</strong> – Governance, bias mitigation, and compliance.</li>
+      <li><strong>Proof of Concepts</strong> – Rapid pilots to validate AI opportunities.</li>
+    </ul>
+  </div>
+</Layout>

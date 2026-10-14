@@ -1,0 +1,20 @@
+{
+  "name": "aksiri-website",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@sofidevo/astro-dynamic-header": "*",
+    "@types/three": "^0.185.4",
+    "astro": "^7.3.8",
+    "three": "^0.185.1"
+  }
+}

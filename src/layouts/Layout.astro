@@ -1,0 +1,362 @@
+---
+import Header from '@sofidevo/astro-dynamic-header/Header.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Aksiri AI — intelligent AI solutions for modern business.',
+} = Astro.props;
+
+const menuItems = [
+  { text: 'About', link: '/about' },
+  { text: 'Products', link: '/products' },
+  { text: 'Services', link: '/services' },
+  { text: 'Contact', link: '/contact' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title} · Aksiri AI</title>
+    <script is:inline>
+      // Apply the saved theme before first paint so pages never flash the wrong colors.
+      // Dark is the default; light only when the visitor picked it.
+      (() => {
+        let theme = 'dark';
+        try { if (localStorage.getItem('theme') === 'light') theme = 'light'; } catch (e) {}
+        const root = document.documentElement;
+        root.classList.toggle('dark', theme === 'dark');
+        root.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <Header
+      headerType="floating"
+      navigation={{
+        menuItems: menuItems
+      }}
+      theme={{
+        light: {
+          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          textColor: '#161a2b',
+          accentColor: '#6c5ce7'
+        },
+        dark: {
+          backgroundColor: 'rgba(13, 13, 13, 0.8)',
+          textColor: '#e7eaf3',
+          accentColor: '#6c5ce7'
+        }
+      }}
+    >
+      <button slot="actions" type="button" class="theme-toggle" aria-label="Switch to light theme" title="Switch theme">
+        <svg class="theme-toggle__sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="theme-toggle__moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a slot="logo" href="/" class="brand" style="display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" fill="#1a1d3a"/>
+            <path d="M32 10C19.9 10 9.6 20.3 9.6 32C9.6 43.7 19.9 54 32 54V10Z" fill="#6c5ce7"/>
+            <circle cx="32" cy="32" r="12" fill="#00d2a8"/>
+          </svg>
+          Aksiri AI
+        </a>
+    </Header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; {new Date().getFullYear()} Aksiri AI. All rights reserved.</p>
+    </footer>
+
+    <script>
+      // Header renders the actions slot twice (desktop bar + mobile menu), so wire every copy.
+      const root = document.documentElement;
+      const buttons = document.querySelectorAll<HTMLButtonElement>('.theme-toggle');
+
+      const syncLabels = () => {
+        const next = root.classList.contains('dark') ? 'light' : 'dark';
+        buttons.forEach((btn) => btn.setAttribute('aria-label', `Switch to ${next} theme`));
+      };
+
+      buttons.forEach((btn) =>
+        btn.addEventListener('click', () => {
+          const theme = root.classList.contains('dark') ? 'light' : 'dark';
+          root.classList.toggle('dark', theme === 'dark');
+          root.dataset.theme = theme;
+          try { localStorage.setItem('theme', theme); } catch (e) {}
+          syncLabels();
+        }),
+      );
+      syncLabels();
+    </script>
+
+    <style is:global>
+      /* Dark is the default palette; light overrides only the color tokens. */
+      :root {
+        color-scheme: dark;
+        --bg: #0b0e14;
+        --surface: #131722;
+        --surface-glass: rgba(35, 40, 56, 0.8);
+        --border: #232838;
+        --text: #e7eaf3;
+        --text-muted: #9aa3b8;
+        --accent: #6c5ce7;
+        --accent-2: #00d2a8;
+        --hero-glow: #131722;
+        --radius: 12px;
+      }
+
+      :root[data-theme="light"] {
+        color-scheme: light;
+        --bg: #f5f6fb;
+        --surface: #ffffff;
+        --surface-glass: rgba(255, 255, 255, 0.8);
+        --border: #dde1ec;
+        --text: #161a2b;
+        --text-muted: #555d75;
+        --accent: #6c5ce7;
+        --accent-2: #00866d;
+        --hero-glow: #e9e6fb;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        transition: border-color 0.2s ease, color 0.2s ease;
+      }
+      .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+      .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      /* Show the icon of the theme you would switch to. */
+      :root.dark .theme-toggle__moon,
+      :root:not(.dark) .theme-toggle__sun { display: none; }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.6;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: calc(5rem + 64px) 1.5rem 5rem; /* Add top padding for fixed header */
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: var(--surface-glass);
+        backdrop-filter: blur(8px);
+        z-index: 10;
+      }
+
+      .site-nav {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+      }
+
+      .site-nav ul {
+        list-style: none;
+        display: flex;
+        gap: 1.75rem;
+        margin: 0;
+        padding: 0;
+      }
+
+      .site-nav a:hover { color: var(--accent-2); }
+
+      .site-footer {
+        border-top: 1px solid var(--border);
+        text-align: center;
+        color: var(--text-muted);
+        padding: 2rem 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      h1, h2, h3 { line-height: 1.2; }
+
+      /* Hero */
+      .hero-title {
+        font-size: clamp(2.2rem, 5vw, 3.4rem);
+        margin-bottom: 0.75rem;
+      }
+      .hero-subtitle {
+        color: var(--text-muted);
+        font-size: 1.15rem;
+        max-width: 42rem;
+        margin-bottom: 2rem;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius);
+        font-weight: 600;
+        border: 1px solid transparent;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+      .btn:hover { transform: translateY(-1px); }
+      .btn-primary { background: var(--accent); color: #fff; }
+      .btn-secondary { background: transparent; border-color: var(--border); color: var(--text); }
+
+      /* Cards / grids */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+        margin-top: 2.5rem;
+      }
+      .service-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+      }
+      .service-card h3 { margin-top: 0; color: var(--accent-2); }
+      .service-card p { color: var(--text-muted); margin-bottom: 0; }
+
+      .about-title, .services-title, .contact-title { font-size: 2.2rem; }
+      .about-text, .contact-text { color: var(--text-muted); max-width: 46rem; }
+
+      .services-category {
+        margin-top: 2.5rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem 2rem;
+      }
+      .services-category .category { margin-top: 0; color: var(--accent-2); }
+      .services-category ul { padding-left: 1.25rem; }
+      .services-category li { margin-bottom: 0.6rem; }
+
+      /* Contact */
+      .contact-info {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0 2.5rem;
+        color: var(--text-muted);
+      }
+      .contact-info li { margin-bottom: 0.4rem; }
+      .contact-form {
+        display: grid;
+        gap: 1rem;
+        max-width: 32rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 2rem;
+      }
+      .contact-form label { font-size: 0.9rem; color: var(--text-muted); }
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        margin-top: 0.35rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        font-family: inherit;
+      }
+      .contact-form button { justify-self: start; }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        main {
+          padding-top: calc(3rem + 40px); /* Reduced top padding for mobile */
+        }
+        
+        h1, h2, h3 {
+          font-size: clamp(1.5rem, 4vw, 2.2rem);
+        }
+
+        .hero-title {
+          font-size: clamp(1.8rem, 6vw, 2.5rem);
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-form {
+          padding: 1.25rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        main {
+          padding-top: 3rem;
+        }
+
+        h1, h2, h3 {
+          font-size: clamp(1.3rem, 5vw, 1.8rem);
+        }
+
+        .hero-title {
+          font-size: clamp(1.5rem, 7vw, 2rem);
+        }
+
+        .site-nav ul {
+          gap: 0.75rem;
+        }
+
+        body {
+          padding: 0 0.75rem;
+        }
+      }
+    </style>
+  </body>
+</html>

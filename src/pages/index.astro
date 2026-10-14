@@ -1,0 +1,526 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StarBackground from '../components/StarBackground.astro';
+
+const features = [
+  {
+    title: "AI Agents",
+    description: "Autonomous AI agents that handle complex workflows, from customer support to decision-making.",
+    icon: "🤖"
+  },
+  {
+    title: "Development",
+    description: "End-to-end AI development including model training, deployment, and enterprise-scale integration.",
+    icon: "💻"
+  },
+  {
+    title: "Consulting",
+    description: "Strategic guidance on AI adoption, ROI optimization, and responsible AI implementation.",
+    icon: "🎯"
+  }
+];
+
+const benefits = [
+  {
+    title: "Performance-First",
+    text: "We prioritize speed and efficiency in every solution we build."
+  },
+  {
+    title: "Future-Ready",
+    text: "Scalable architectures designed to grow with your business needs."
+  },
+  {
+    title: "Proven Results",
+    text: "Real-world solutions that drive measurable business outcomes."
+  }
+];
+
+const useCases = [
+  { category: "Enterprise Solutions", services: ["Customer Support Automation", "Workflow Optimization", "Data Analytics"] },
+  { category: "Development Services", services: ["AI Model Training", "API Integration", "Cloud Deployment"] },
+  { category: "Strategic Consulting", services: ["AI Strategy", "ROI Analysis", "Implementation Planning"] }
+];
+---
+
+<Layout title="Welcome to Aksiri AI" description="Intelligent AI solutions for modern business.">
+  <StarBackground />
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span> Transforming Business with AI
+      </div>
+      <h1 class="hero-title">
+        Intelligent Solutions <br />
+        <span class="gradient-text">For Tomorrow's World</span>
+      </h1>
+      <p class="hero-subtitle">
+        Empowering your business with cutting-edge artificial intelligence that drives real results. 
+        From autonomous agents to strategic consulting, we build the future of business today.
+      </p>
+      <div class="hero-actions">
+        <a href="#features" class="btn btn-primary">Explore Solutions</a>
+        <a href="#contact" class="btn btn-secondary">Let's Talk</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave Separator -->
+  <div class="wave"></div>
+
+  <!-- Features Section -->
+  <section id="features" class="features-section">
+    <h2 class="section-title">Our Expertise</h2>
+    <p class="section-subtitle">Comprehensive AI solutions tailored for modern businesses</p>
+    
+    <div class="features-grid">
+      {features.map((feature, index) => (
+        <article class="feature-card" data-index={index}>
+          <div class="feature-icon">{feature.icon}</div>
+          <h3 class="feature-title">{feature.title}</h3>
+          <p class="feature-desc">{feature.description}</p>
+          <a href="/services" class="feature-arrow">→</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits-section bg-surface">
+    <h2 class="section-title text-center">Why Choose Aksiri?</h2>
+    <p class="section-subtitle text-center">Built with performance, reliability, and the future in mind</p>
+    
+    <div class="benefits-grid">
+      {benefits.map((benefit) => (
+        <div class="benefit-card">
+          <div class="benefit-content">
+            <h3>{benefit.title}</h3>
+            <p>{benefit.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Use Cases Section -->
+  <section class="use-cases-section">
+    <h2 class="section-title">What We Deliver</h2>
+    <p class="section-subtitle">From automation to strategy, the services behind each engagement</p>
+
+    <div class="use-cases-grid">
+      {useCases.map((item) => (
+        <article class="use-case-card">
+          <h3 class="use-case-category">{item.category}</h3>
+          <ul class="use-case-list">
+            {item.services.map((service) => (
+              <li>{service}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section id="contact" class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to Transform Your Business?</h2>
+      <p class="cta-subtitle">Let's discuss how Aksiri AI can help you achieve your goals.</p>
+      <a href="/contact" class="btn btn-primary btn-large">Start Your Journey</a>
+    </div>
+  </section>
+
+  <!-- Footer Wave -->
+  <div class="footer-wave"></div>
+</Layout>
+
+<style>
+  /* Base palette (--bg, --surface, --border, --text, --accent, --accent-2, --radius)
+     comes from Layout.astro; only homepage-specific tokens live here. */
+  :root {
+    --gradient-text: linear-gradient(90deg, #a855f7 0%, #ec4899 50%, #f59e0b 100%);
+    --transition: all ease 0.3s;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-content {
+    max-width: 900px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(108, 92, 231, 0.1);
+    border: 1px solid rgba(108, 92, 231, 0.3);
+    border-radius: 9999px;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--accent-2);
+  }
+
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-2);
+    border-radius: 9999px;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .gradient-text {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 2rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: var(--transition);
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    color: #0b0e14;
+  }
+
+  .btn-secondary {
+    background: var(--surface-glass);
+    border: 1px solid var(--border);
+    color: var(--text);
+    backdrop-filter: blur(8px);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(108, 92, 231, 0.2);
+  }
+
+  /* Common Section Styles */
+  section {
+    padding: 6rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+  }
+
+  .text-center { text-align: center; }
+
+  /* Wave Separator */
+  .wave {
+    width: 100%;
+    height: 80px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,64L80,69.3C160,75,320,91,480,85.3C640,80,800,53.3,960,42.7C1120,32,1280,42.7,1440,53.3L1440,0L1440,100L1440,100L1280,94.7C1120,91.6,960,98.7,800,98.7C640,103.6,480,96,320,93.3C160,91.6,0,85.3,0,64Z' fill='%23e7eaf3' fill-opacity='0.02'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
+
+  .footer-wave {
+    height: 100px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'%3E%3Cpath d='M0,64L80,69.3C160,75,320,91,480,85.3C640,80,800,53.3,960,42.7C1120,32,1280,42.7,1440,53.3L1440,64L1440,0L1440,0L1280,2.6C1120,6.9,960,11.6,800,13.7C640,14.5,480,19.6,320,21.3C160,23.1,0,26.7,0,40L0,100L0,100L160,100L320,100C480,100,640,96,800,96,960,96,1120,96,1280,90.7C1440,85.3,1440,85.3,1440,80L1440,0L1440,0L1280,5.3C1120,10.7,960,16,800,18.7C640,21.3,480,21.3,320,21.3C160,21.3,0,22.7,0,40L0,100L0,100Z' fill='%23e7eaf3' fill-opacity='0.02'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+
+  /* Features Section */
+  .features-section {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-text);
+    opacity: 0;
+    transition: var(--transition);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(108, 92, 231, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .feature-desc {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-arrow {
+    font-size: 1.25rem;
+    color: var(--accent-2);
+    font-weight: bold;
+    display: inline-block;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .feature-arrow:hover {
+    transform: translateX(0.25em);
+    color: var(--accent);
+  }
+
+  /* Benefits Section */
+  .benefits-section {
+    position: relative;
+  }
+
+  .benefits-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .benefit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition);
+  }
+
+  .benefit-card:hover {
+    transform: scale(1.02);
+    border-color: rgba(108, 92, 231, 0.3);
+  }
+
+  .benefit-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-2);
+    margin-bottom: 0.75rem;
+  }
+
+  .benefit-card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* Use Cases Section */
+  .use-cases-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .use-cases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .use-case-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 3rem 2rem;
+  }
+
+  .use-case-category {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+  }
+
+  .use-case-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .use-case-list li {
+    color: var(--text-muted);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .use-case-list li::before {
+    content: '✓';
+    color: var(--accent-2);
+    font-weight: bold;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    text-align: center;
+    padding: 4rem 1.5rem;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .cta-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .cta-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .btn-large {
+    padding: 1rem 3rem;
+    font-size: 1.125rem;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .feature-icon {
+      font-size: 2.5rem;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .use-cases-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    section {
+      padding: 3rem 0.75rem;
+    }
+
+    .use-cases-section {
+      padding: 2rem 0.75rem;
+    }
+  }
+</style>

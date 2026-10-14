@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<style is:global>
+  @media (max-width: 768px) {
+    .services-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    .service-card {
+      padding: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 0 0.75rem;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>
+
+<Layout title="About" description="About Aksiri AI — the company.">
+  <h1 class="about-title">About Aksiri AI</h1>
+  <p class="about-text">
+    Aksiri AI is a leading artificial intelligence consultancy and development firm
+    dedicated to helping businesses harness the power of machine learning, AI agents,
+    and data-driven innovation. Founded on the belief that intelligent technology should
+    be accessible, ethical, and transformative, we partner with clients across industries
+    to build smart solutions that scale.
+  </p>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <h3>AI Agents</h3>
+      <p>Autonomous AI agents that handle complex workflows, from customer support to decision-making, while learning and adapting over time.</p>
+    </div>
+    <div class="service-card">
+      <h3>Development Services</h3>
+      <p>End-to-end AI development including model training, deployment, integration, and scaling for enterprise use cases.</p>
+    </div>
+    <div class="service-card">
+      <h3>AI Consulting</h3>
+      <p>Strategic guidance on AI adoption, ROI optimization, and responsible AI implementation for your business.</p>
+    </div>
+  </div>
+</Layout>

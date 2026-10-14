@@ -1,0 +1,173 @@
+<div class="star-container" aria-hidden="true">
+  <canvas id="star-canvas"></canvas>
+</div>
+
+<style>
+  .star-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, var(--hero-glow) 0%, var(--bg) 75%);
+    /* Fade the starfield into the page instead of ending on a hard edge. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  }
+  #star-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  (() => {
+    const canvas = document.getElementById('star-canvas') as HTMLCanvasElement | null;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const STAR_COUNT = 450;
+    const DEPTH = 1000;          // stars travel from z = DEPTH toward z = 0
+    const SPEED = reduceMotion ? 0 : 2.2;
+    // Pale stars for the dark theme; deeper tones so they still show on the light theme.
+    const COLORS_DARK = ['#ffffff', '#cfd8ff', '#b9a8ff', '#a8fff0'];
+    const COLORS_LIGHT = ['#3b3f6b', '#6c5ce7', '#8a7cf0', '#00866d'];
+    const root = document.documentElement;
+    let palette = root.classList.contains('dark') ? COLORS_DARK : COLORS_LIGHT;
+    new MutationObserver(() => {
+      palette = root.classList.contains('dark') ? COLORS_DARK : COLORS_LIGHT;
+      if (reduceMotion) draw(); // static mode has no animation loop to repaint
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+    let width = 0;
+    let height = 0;
+    let cx = 0;
+    let cy = 0;
+    let focal = 0;
+
+    type Star = { x: number; y: number; z: number; pz: number; color: number };
+    type Meteor = { x: number; y: number; vx: number; vy: number; life: number; maxLife: number };
+
+    const stars: Star[] = [];
+    const meteors: Meteor[] = [];
+
+    const spawnStar = (star: Partial<Star> = {}, anyDepth = false): Star => {
+      const z = anyDepth ? Math.random() * DEPTH : DEPTH;
+      return Object.assign(star, {
+        x: (Math.random() - 0.5) * width * 2,
+        y: (Math.random() - 0.5) * height * 2,
+        z,
+        pz: z,
+        color: Math.floor(Math.random() * COLORS_DARK.length),
+      }) as Star;
+    };
+
+    const spawnMeteor = () => {
+      const angle = Math.PI * (0.15 + Math.random() * 0.15); // shallow down-right diagonal
+      const speed = 9 + Math.random() * 6;
+      meteors.push({
+        x: Math.random() * width * 0.7,
+        y: Math.random() * height * 0.4,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        life: 0,
+        maxLife: 60 + Math.random() * 40,
+      });
+    };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = width / 2;
+      cy = height / 2;
+      focal = width * 0.6;
+    };
+
+    resize();
+    for (let i = 0; i < STAR_COUNT; i++) stars.push(spawnStar({}, true));
+
+    const project = (x: number, y: number, z: number) => [cx + (x / z) * focal, cy + (y / z) * focal];
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const s of stars) {
+        s.pz = s.z;
+        s.z -= SPEED;
+        if (s.z < 1) {
+          spawnStar(s);
+          continue;
+        }
+
+        const [x, y] = project(s.x, s.y, s.z);
+        if (x < -50 || x > width + 50 || y < -50 || y > height + 50) {
+          spawnStar(s);
+          continue;
+        }
+
+        const [px, py] = project(s.x, s.y, s.pz);
+        const closeness = 1 - s.z / DEPTH;              // 0 far → 1 near
+        ctx.globalAlpha = Math.min(1, 0.15 + closeness * 1.1);
+        ctx.strokeStyle = palette[s.color];
+        ctx.fillStyle = palette[s.color];
+        ctx.lineWidth = 0.4 + closeness * 2;
+
+        if (SPEED > 0) {
+          // Motion trail from the previous frame's position gives the "flying" streak.
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.arc(x, y, ctx.lineWidth / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      if (!reduceMotion && Math.random() < 0.006 && meteors.length < 2) spawnMeteor();
+
+      for (let i = meteors.length - 1; i >= 0; i--) {
+        const m = meteors[i];
+        m.x += m.vx;
+        m.y += m.vy;
+        m.life++;
+        const fade = 1 - m.life / m.maxLife;
+        if (fade <= 0) {
+          meteors.splice(i, 1);
+          continue;
+        }
+        const tailX = m.x - m.vx * 12;
+        const tailY = m.y - m.vy * 12;
+        const grad = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+        grad.addColorStop(0, `rgba(255, 255, 255, ${fade})`);
+        grad.addColorStop(1, 'rgba(168, 255, 240, 0)');
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(tailX, tailY);
+        ctx.stroke();
+      }
+
+      ctx.globalAlpha = 1;
+      if (!reduceMotion) requestAnimationFrame(draw);
+    };
+
+    draw();
+    window.addEventListener('resize', () => {
+      resize();
+      if (reduceMotion) draw(); // static mode has no animation loop to repaint
+    });
+  })();
+</script>
