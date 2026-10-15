@@ -46,6 +46,9 @@ Header comes from `@sofidevo/astro-dynamic-header` (never edit `node_modules`).
 - Do not add new npm packages without saying why.
 - Do not invent statistics, client names or testimonials.
 - Keep changes small and focused on the task.
+- The site is served from a sub-path (/aksiri-website on GitHub Pages). Write every
+  internal link as `href={url('/contact')}` with `import { url } from '../utils/url'`,
+  never a bare `href="/contact"`.
 
 ## Definition of done
 

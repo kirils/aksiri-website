@@ -1,4 +1,5 @@
 ---
+import { url } from '../utils/url';
 import Layout from '../layouts/Layout.astro';
 import StarBackground from '../components/StarBackground.astro';
 
@@ -79,7 +80,7 @@ const faqs = [
         from the first strategy conversation through to production.
       </p>
       <div class="hero-actions">
-        <a href="/contact" class="btn btn-hero">Talk to us about your project</a>
+        <a href={url("/contact")} class="btn btn-hero">Talk to us about your project</a>
       </div>
     </div>
   </section>
@@ -98,7 +99,7 @@ const faqs = [
           <div class="feature-icon">{feature.icon}</div>
           <h3 class="feature-title">{feature.title}</h3>
           <p class="feature-desc">{feature.description}</p>
-          <a href="/services" class="feature-arrow">→</a>
+          <a href={url("/services")} class="feature-arrow">→</a>
         </article>
       ))}
     </div>
@@ -160,7 +161,7 @@ const faqs = [
     <div class="cta-content">
       <h2 class="cta-title">Ready to Transform Your Business?</h2>
       <p class="cta-subtitle">Let's discuss how Aksiri AI can help you achieve your goals.</p>
-      <a href="/contact" class="btn btn-primary btn-large">Start Your Journey</a>
+      <a href={url("/contact")} class="btn btn-primary btn-large">Start Your Journey</a>
     </div>
   </section>
 
