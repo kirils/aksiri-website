@@ -49,19 +49,18 @@ const useCases = [
   <section class="hero">
     <div class="hero-content">
       <div class="hero-badge">
-        <span class="badge-dot"></span> Transforming Business with AI
+        <span class="badge-dot"></span> AI Agents · Development · Consulting
       </div>
       <h1 class="hero-title">
-        Intelligent Solutions <br />
-        <span class="gradient-text">For Tomorrow's World</span>
+        Put AI to work <br />
+        <span class="gradient-text">where your business needs it</span>
       </h1>
       <p class="hero-subtitle">
-        Empowering your business with cutting-edge artificial intelligence that drives real results. 
-        From autonomous agents to strategic consulting, we build the future of business today.
+        Aksiri designs, builds and deploys AI agents and custom AI systems,
+        from the first strategy conversation through to production.
       </p>
       <div class="hero-actions">
-        <a href="#features" class="btn btn-primary">Explore Solutions</a>
-        <a href="#contact" class="btn btn-secondary">Let's Talk</a>
+        <a href="/contact" class="btn btn-hero">Talk to us about your project</a>
       </div>
     </div>
   </section>
@@ -242,11 +241,16 @@ const useCases = [
     color: #0b0e14;
   }
 
-  .btn-secondary {
-    background: var(--surface-glass);
-    border: 1px solid var(--border);
-    color: var(--text);
-    backdrop-filter: blur(8px);
+  .btn-hero {
+    background: var(--accent);
+    color: var(--on-accent);
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+  }
+
+  .btn-hero:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 3px;
   }
 
   .btn:hover {
