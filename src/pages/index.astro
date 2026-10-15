@@ -40,6 +40,25 @@ const useCases = [
   { category: "Development Services", services: ["AI Model Training", "API Integration", "Cloud Deployment"] },
   { category: "Strategic Consulting", services: ["AI Strategy", "ROI Analysis", "Implementation Planning"] }
 ];
+
+const faqs = [
+  {
+    question: "What kind of AI services does Aksiri offer?",
+    answer: "We work across three areas: AI agents that automate workflows such as customer support, custom AI development from model training to deployment, and consulting on AI strategy and adoption."
+  },
+  {
+    question: "What is an AI agent, and how could my business use one?",
+    answer: "An AI agent is software that can carry out multi-step tasks on its own, such as answering customer questions, routing requests or preparing data for a decision. We help you find the workflows where an agent saves real time and build it around your existing tools."
+  },
+  {
+    question: "Can you integrate AI with the systems we already use?",
+    answer: "Yes. Integration is part of every project. We connect AI models and agents to your existing software through APIs and deploy them to the cloud environment that suits your team."
+  },
+  {
+    question: "How do we get started?",
+    answer: "Get in touch through our contact page and tell us about your goals. We start with a conversation about where AI fits your business, then agree on a plan before any build work begins."
+  }
+];
 ---
 
 <Layout title="Welcome to Aksiri AI" description="Intelligent AI solutions for modern business.">
@@ -117,6 +136,21 @@ const useCases = [
             ))}
           </ul>
         </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq-section">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-subtitle">Common questions about working with Aksiri on AI</p>
+
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <details class="faq-item">
+          <summary class="faq-question">{faq.question}</summary>
+          <p class="faq-answer">{faq.answer}</p>
+        </details>
       ))}
     </div>
   </section>
@@ -463,6 +497,72 @@ const useCases = [
     font-weight: bold;
   }
 
+  /* FAQ Section */
+  .faq-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: var(--transition);
+  }
+
+  .faq-item[open] {
+    border-color: var(--accent);
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    flex-shrink: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--accent-2);
+    transition: var(--transition);
+  }
+
+  .faq-item[open] .faq-question::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-question:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+    border-radius: var(--radius);
+  }
+
+  .faq-answer {
+    margin: 0;
+    padding: 0 1.5rem 1.5rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
   /* CTA Section */
   .cta-section {
     text-align: center;
@@ -523,8 +623,18 @@ const useCases = [
       padding: 3rem 0.75rem;
     }
 
-    .use-cases-section {
+    .use-cases-section,
+    .faq-section {
       padding: 2rem 0.75rem;
+    }
+
+    .faq-question {
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+    }
+
+    .faq-answer {
+      padding: 0 1.25rem 1.25rem;
     }
   }
 </style>
