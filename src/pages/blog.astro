@@ -1,9 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { url } from '../utils/url';
 
-// Add posts here as they are written, newest first.
-const posts: { title: string; date: string; summary: string }[] = [];
+// Posts live in src/content/blog; newest first.
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const isoDate = (date: Date) => date.toISOString().slice(0, 10);
 ---
 
 <Layout title="Blog" description="Aksiri AI blog — notes on AI agents, development and consulting.">
@@ -16,9 +20,9 @@ const posts: { title: string; date: string; summary: string }[] = [];
     <div class="services-grid">
       {posts.map((post) => (
         <article class="service-card">
-          <h3>{post.title}</h3>
-          <time class="blog-date" datetime={post.date}>{post.date}</time>
-          <p>{post.summary}</p>
+          <h3><a class="blog-link" href={url(`/blog/${post.id}`)}>{post.data.title}</a></h3>
+          <time class="blog-date" datetime={isoDate(post.data.date)}>{isoDate(post.data.date)}</time>
+          <p>{post.data.summary}</p>
         </article>
       ))}
     </div>
@@ -39,4 +43,5 @@ const posts: { title: string; date: string; summary: string }[] = [];
   .blog-date { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
   .blog-empty { margin-top: 2.5rem; max-width: 46rem; }
   .blog-empty a { color: var(--accent); }
+  .blog-link:hover { text-decoration: underline; }
 </style>

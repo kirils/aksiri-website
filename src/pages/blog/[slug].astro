@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../utils/url';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const isoDate = post.data.date.toISOString().slice(0, 10);
+---
+
+<Layout title={post.data.title} description={post.data.summary}>
+  <article class="post">
+    <a class="post-back" href={url('/blog')}>&larr; All posts</a>
+    <h1 class="post-title">{post.data.title}</h1>
+    <time class="post-date" datetime={isoDate}>{isoDate}</time>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post { max-width: 46rem; }
+  .post-back { color: var(--accent); font-size: 0.95rem; }
+  .post-title { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .post-date { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
+  .post-body { line-height: 1.7; overflow-wrap: break-word; }
+  .post-body :global(h2) { color: var(--accent-2); margin-top: 2.5rem; }
+  .post-body :global(p) { color: var(--text-muted); }
+  .post-body :global(a) { color: var(--accent); text-decoration: underline; }
+  .post-body :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+  @media (max-width: 480px) {
+    .post-title { font-size: 1.7rem; }
+  }
+</style>
