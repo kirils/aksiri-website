@@ -36,6 +36,8 @@ const isoDate = post.data.date.toISOString().slice(0, 10);
   .post-body :global(hr) { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
   @media (max-width: 480px) {
+    /* main has only 3rem top padding here; clear the fixed header (~75px tall on phones). */
+    .post-back { display: inline-block; margin-top: 2.5rem; }
     .post-title { font-size: 1.7rem; }
   }
 </style>
